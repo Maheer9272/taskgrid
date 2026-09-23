@@ -14,7 +14,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskResponseDto {
-
+    private Long id;
     private String name;
     private String payload;
     private TaskType taskType;

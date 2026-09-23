@@ -6,6 +6,7 @@ import com.maheer.taskgrid.dto.TaskResponseDto;
 import com.maheer.taskgrid.entity.TaskStatus;
 import com.maheer.taskgrid.entity.TaskType;
 import com.maheer.taskgrid.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<CreateTaskResponseDto> createTask(
-            @RequestBody CreateTaskRequestDto requestDto
+            @Valid @RequestBody CreateTaskRequestDto requestDto
     ){
         CreateTaskResponseDto responseDto = taskService.createTask(requestDto);
         return ResponseEntity
