@@ -6,6 +6,7 @@ import com.maheer.taskgrid.dto.TaskResponseDto;
 import com.maheer.taskgrid.entity.Task;
 import com.maheer.taskgrid.entity.TaskStatus;
 import com.maheer.taskgrid.entity.TaskType;
+import com.maheer.taskgrid.exception.ResourceNotFoundException;
 import com.maheer.taskgrid.repository.TaskRepository;
 import com.maheer.taskgrid.specification.TaskSpecifications;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,7 @@ public class TaskService {
         taskRepository.save(task);
 
         return new CreateTaskResponseDto(
+                task.getId(),
                 task.getName(),
                 task.getPayload(),
                 task.getTaskType(),
@@ -44,12 +46,13 @@ public class TaskService {
         );
     }
 
-    @Transactional
+
     public TaskResponseDto getTaskById(Long id) {
         Task task = taskRepository.findTaskById(id)
-                .orElseThrow(()->new RuntimeException("resource not found"));
+                .orElseThrow(()->new ResourceNotFoundException("Task not found"));
 
         return new TaskResponseDto(
+                task.getId(),
                 task.getName(),
                 task.getPayload(),
                 task.getTaskType(),
@@ -66,7 +69,6 @@ public class TaskService {
         );
     }
 
-    @Transactional
     public Page<TaskResponseDto> getTasks(
             TaskStatus status,
             TaskType taskType,
@@ -90,6 +92,7 @@ public class TaskService {
         Page<Task> tasks = taskRepository.findAll(specification, pageable);
 
         return tasks.map(task -> new TaskResponseDto(
+                task.getId(),
                 task.getName(),
                 task.getPayload(),
                 task.getTaskType(),
@@ -109,10 +112,11 @@ public class TaskService {
     @Transactional
     public TaskResponseDto cancelTask(Long id) {
         Task task = taskRepository.findTaskById(id)
-                .orElseThrow( () -> new RuntimeException("record not found"));
+                .orElseThrow( () -> new ResourceNotFoundException("Task not found"));
         task.cancel();
 
         return new TaskResponseDto(
+                task.getId(),
                 task.getName(),
                 task.getPayload(),
                 task.getTaskType(),

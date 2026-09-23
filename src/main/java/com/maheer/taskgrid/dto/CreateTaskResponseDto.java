@@ -14,10 +14,11 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateTaskResponseDto {
+    private Long id;
     private String name;
     private String payload;
     private TaskType taskType;
     private TaskStatus status;
     private Instant executeAt;
-    private int maxRetires;
+    private int maxRetries;
 }
