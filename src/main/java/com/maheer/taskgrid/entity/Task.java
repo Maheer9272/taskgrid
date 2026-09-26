@@ -136,6 +136,22 @@ public class Task {
         return claimedBy;
     }
 
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    public void setLastError(String lastError) {
+        this.lastError = lastError;
+    }
+
+    public void setClaimedBy(String claimedBy) {
+        this.claimedBy = claimedBy;
+    }
+
+    public void setCompletedAt(Instant completedAt) {
+        this.completedAt = completedAt;
+    }
+
     public void cancel(){
         if ((this.getStatus() != TaskStatus.PENDING)){
             throw new IllegalStateException("Cannon cancel the non pending task");
